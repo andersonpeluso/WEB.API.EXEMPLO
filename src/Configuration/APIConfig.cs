@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Linq;
 
 namespace Modelo.API.Configuration
 {
@@ -10,6 +12,12 @@ namespace Modelo.API.Configuration
         public static IServiceCollection AddApiConfiguration(this IServiceCollection services)
         {
             services.AddCors();
+
+            services.AddResponseCompression(options =>
+            {
+                options.Providers.Add<GzipCompressionProvider>();
+                options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/json" });
+            });
 
             services.AddControllers();
 
@@ -30,7 +38,7 @@ namespace Modelo.API.Configuration
               .AllowAnyMethod()
               .AllowAnyHeader());
 
-            // app.UseIdentityConfiguration();
+             app.UseIdentityConfiguration();
 
             app.UseEndpoints(endpoints =>
             {

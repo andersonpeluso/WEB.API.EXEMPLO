@@ -10,10 +10,10 @@ using System.Text;
 
 namespace Modelo.API.Controllers
 {
-    //[Authorize]
     [ApiController]
     [Route("api/identidade")]
-       public class AuthController : BaseController
+    [Authorize]
+    public class AuthController : BaseController
     {
         private readonly AppSettings _appSettings;
 
@@ -23,7 +23,6 @@ namespace Modelo.API.Controllers
         }
 
         [HttpPost("nova-conta")]
-        [Authorize]
         public ActionResult Registrar(UsuarioRegistro registro)
         {
             // é async
@@ -48,8 +47,9 @@ namespace Modelo.API.Controllers
             return BadRequest();
         }
 
-       
-        [HttpPost("autenticar")]
+
+        [HttpPost]
+        [Route("autenticar")]
         [AllowAnonymous]
         public ActionResult Login(UsuarioLogin login)
         {
@@ -67,7 +67,7 @@ namespace Modelo.API.Controllers
 
             // return BadRequest();
 
-            return CustomResponse(GeraJWT("nobody@gmail.com"));
+            return CustomResponse(GerarToken("nobody@gmail.com"));
 
             //if (result.IsLockedOut)
             //{
@@ -79,7 +79,7 @@ namespace Modelo.API.Controllers
             //    return CustomResponse();
         }
 
-        private UsuarioLogin GeraJWT(string email)
+        private UsuarioLogin GerarToken(string email)
         {
             // Obter o usuario.
             // Verifica quais módulos tem acesso.

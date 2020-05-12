@@ -43,9 +43,11 @@ namespace Modelo.API
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseApiConfiguration(env);
+
             app.UseSwaggerConfiguration();
 
-            app.UseApiConfiguration(env);
+            
         }
     }
 }
