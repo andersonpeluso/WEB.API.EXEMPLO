@@ -105,13 +105,13 @@ namespace Modelo.API.Controllers
             {
                 // Pegar informações do usuário.
 
+
                 Acesso = new Token
                 {
                     AccessToken = encodedToken,
                     ExpiresIn = TimeSpan.FromHours(_appSettings.ExpiracaoHoras).TotalSeconds,
                 }
             };
-
             return response;
         }
 
