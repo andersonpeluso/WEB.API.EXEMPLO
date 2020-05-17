@@ -67,7 +67,11 @@ namespace Modelo.API.Controllers
 
             // return BadRequest();
 
-            return CustomResponse(GerarToken("nobody@gmail.com"));
+            var result = GerarToken("nobody@gmail.com");
+
+            result.Nome = result.Nome?.Trim().ToUpper();
+
+            return CustomResponse(result);
 
             //if (result.IsLockedOut)
             //{
